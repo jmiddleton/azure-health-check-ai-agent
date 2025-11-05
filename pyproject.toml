@@ -1,0 +1,37 @@
+[project]
+name = "azure-healthcheck-agents"
+version = "0.1.0"
+description = "Punta Negra Healthcheck Agents"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "agent-framework>=1.0.0b251001",
+    "aiohttp>=3.12.15",
+    "aiosqlite>=0.21.0",
+    "azure-ai-projects>=1.0.0",
+    "azure-identity>=1.25.0",
+    "azure-mgmt-datafactory>=9.2.0",
+    "azure-mgmt-logic>=10.0.0",
+    "azure-mgmt-resource>=24.0.0",
+    "azure-mgmt-resourcegraph>=8.0.0",
+    "azure-monitor-query>=2.0.0",
+    "azure-monitor-querymetrics>=1.0.0",
+    "chainlit>=2.8.3",
+    "debugpy>=1.8.17",
+    "dotenv>=0.9.9",
+    "fastapi>=0.116.1",
+    "fastmcp>=2.12.4",
+    "greenlet>=3.2.4",
+    "jira>=3.10.5",
+    "matplotlib>=3.10.7",
+    "openai-chatkit>=1.0.2",
+    "openpyxl>=3.1.5",
+    "pandas>=2.3.3",
+    "plotly>=6.3.1",
+    "pydantic>=2.11.10",
+    "pytest>=8.4.2",
+    "pyyaml>=6.0.3",
+    "sqlalchemy>=2.0.43",
+    "tabulate>=0.9.0",
+    "uvicorn>=0.37.0",
+]

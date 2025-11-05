@@ -1,0 +1,21 @@
+/* Make the main chat container wider */
+.user_message {
+  max-width: 95% !important;  /* or 100% for full width */
+  margin: 0 auto !important;   /* center it */
+}
+
+/* Make the whole chat container wider */
+#welcome-screen {
+    max-width: 95% !important;   /* or 100% for full width */
+    margin: 0 auto !important;   /* center horizontally */
+}
+
+/* Make the input area wider */
+#message-composer {
+    max-width: 95% !important;
+}
+
+/* Optional: make message bubbles wider */
+.message-content {
+    max-width: 90% !important;
+}

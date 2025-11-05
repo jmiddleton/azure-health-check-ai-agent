@@ -1,0 +1,3 @@
+﻿System,Responsible,Integration,Resource_Group,URL
+Integration Runtime,Tito,my-intruntime-prod01,rg-myapp-au-prod,[full url to resource]
+DAP,Tito,adf-mylogging-prod01,rg-myapp-au-prod,[full url to resource]
