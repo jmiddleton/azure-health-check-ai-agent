@@ -4,3 +4,4 @@ chat_history.db
 __pycache__/chat_server.cpython-312.pyc
 __pycache__/chat_server.cpython-313.pyc
 tools/__pycache__/*.pyc
+utils/__pycache__/*.pyc
