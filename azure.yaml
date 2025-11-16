@@ -1,0 +1,11 @@
+name: azure-healthcheck-agents
+metadata:
+    template: azd-init@1.20.3
+services:
+    api:
+        project: ./src
+        language: python
+        host: containerapp
+        docker:
+            path: Dockerfile
+            remoteBuild: true
