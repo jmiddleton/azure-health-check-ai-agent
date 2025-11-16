@@ -86,8 +86,10 @@ The Agent uses the following security mechanisms:
 
 ### Install Dependencies
 
-`uv sync`
-`.\.venv\Scripts\Activate`
+Go to the source folder `cd .\src`
+
+`uv sync --prerelease=allow`
+`source ./.venv/bin/activate`
 
 ### Authenticate with Azure
 
@@ -95,10 +97,8 @@ The Agent uses the following security mechanisms:
 
 ### Run the Agent
 
-Go to the source folder `cd .\src`
-
 1. Chatbot
-  - Production: `chainlit run chat_server.py -w`
+  - Production: `uv run chat_server.py`
 
 2. Batch Mode
   - `uv run .\batch_healthcheck.py`
