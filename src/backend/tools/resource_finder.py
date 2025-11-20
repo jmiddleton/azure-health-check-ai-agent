@@ -42,12 +42,15 @@ class AzureResourceFinder:
         subscription_ids = os.getenv("AZURE_SUBSCRIPTION_IDS")
         subs = subscription_ids.split(",") if subscription_ids else ["*"]
 
-        request = QueryRequest(subscriptions=subs, query=query)
-        response = self.client.resources(request)
-
-        for r in response.data:
-            return f"https://portal.azure.com/#@puntanegra.edu.au/resource{r['id']}"  # Return the first matching resource ID
+        try:
+            request = QueryRequest(subscriptions=subs, query=query)
+            response = self.client.resources(request)
         
+            for r in response.data:
+                return f"https://portal.azure.com/#@unsw.edu.au/resource{r['id']}"  # Return the first matching resource ID
+        except Exception as e:
+            logger.error(f"Error querying resources: {e}")
+            return None
 
     def list_resources_by_type(self, resource_type: str, resource_group: Optional[str] = None) -> list[dict]:
 

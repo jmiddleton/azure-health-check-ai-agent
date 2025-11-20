@@ -98,7 +98,7 @@ Go to the source folder `cd .\src`
 ### Run the Agent
 
 1. Chatbot
-  - Production: `uv run chat_server.py`
+  - Production: `./.venv/bin/chainlit run chat_server.py` or `uv run chat_server.py`
 
 2. Batch Mode
   - `uv run .\batch_healthcheck.py`

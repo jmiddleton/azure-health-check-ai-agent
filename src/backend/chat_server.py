@@ -97,10 +97,9 @@ async def set_starters():
             message="""Please perform a full health check for entries.""",
             icon="/public/idea.svg",
         ),
-
         cl.Starter(
             label="Search for Azure Resource by Name",
-            message="Can you please check the status of the resource with name \"adf-dap-prd\"?",
+            message="Can you please check the status of the resource with name web-puntanegra-dev02",
             icon="/public/learn.svg",
         ),
         cl.Starter(
@@ -118,7 +117,6 @@ async def set_starters():
             message="Can you draw the metric PipelineSucceededRuns for web-puntanegra-dev01?",
             icon="/public/chart.svg",
         )
-
     ]
 
 @cl.password_auth_callback

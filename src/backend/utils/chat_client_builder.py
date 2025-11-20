@@ -5,6 +5,7 @@ from agent_framework_azure_ai import AzureAIAgentClient
 from agent_framework.openai import OpenAIChatClient, OpenAIResponsesClient
 from agent_framework import ChatAgent
 from agent_framework.azure import AzureOpenAIChatClient
+from azure.identity import DefaultAzureCredential
 
 logger = logging.getLogger("ms_agent")
 logger.setLevel(os.getenv("LOG_LEVEL", "DEBUG"))
@@ -22,9 +23,10 @@ def new_chat_client() -> ChatAgent:
     elif os.getenv("OPENAI_API_KEY") == "azureopenai":
         logger.info("Using AzureOpenAI as the backend for the agent.")
         chat_client = AzureOpenAIChatClient(
+            credential=DefaultAzureCredential(),
             endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
             api_version=os.getenv("AZURE_OPENAI_API_VERSION"),
-            api_key=os.getenv("AZURE_OPENAI_SUBSCRIPTION_KEY"),
+            # api_key=os.getenv("AZURE_OPENAI_SUBSCRIPTION_KEY"),
             deployment_name=os.getenv("AZURE_OPENAI_CHAT_DEPLOYMENT_NAME"),
         )
     else:
