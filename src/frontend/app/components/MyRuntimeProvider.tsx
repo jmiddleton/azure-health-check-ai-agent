@@ -7,6 +7,13 @@ import {
     useLocalRuntime,
     type ChatModelAdapter,
 } from "@assistant-ui/react";
+import { AssistantCloud } from "assistant-cloud";
+
+const cloud = new AssistantCloud({
+  apiKey: process.env.ASSISTANT_CLOUD_API_KEY || "",
+  userId: "user-123",
+  workspaceId: "azurehealthcheck",
+});
 
 export const FastAPIAdapter: ChatModelAdapter = {
     async *run({ messages, abortSignal }) {
@@ -57,7 +64,7 @@ export function MyRuntimeProvider({
 }: Readonly<{
     children: ReactNode;
 }>) {
-    const runtime = useLocalRuntime(FastAPIAdapter);
+    const runtime = useLocalRuntime(FastAPIAdapter, {cloud});
 
     return (
         <AssistantRuntimeProvider runtime={runtime}>

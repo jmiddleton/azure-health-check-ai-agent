@@ -1,5 +1,6 @@
 from azure.monitor.querymetrics import MetricsClient, MetricAggregationType
 from datetime import timedelta
+from datetime import datetime
 from dotenv import load_dotenv
 import logging
 import os
@@ -13,6 +14,16 @@ thresholds = [
     (25, timedelta(minutes=30)),
     (0,  timedelta(minutes=5)), 
 ]
+
+
+def make_json_safe(value):
+    if isinstance(value, datetime):
+        return value.isoformat()
+    if isinstance(value, dict):
+        return {k: make_json_safe(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [make_json_safe(v) for v in value]
+    return value
 
 class AzureMetricsClient:
     def __init__(self, credential):
@@ -54,7 +65,11 @@ class AzureMetricsClient:
             )
 
             metric_values: list = result[0].metrics[0].timeseries[0].data
-            metric_values_as_dict = [vars(mv) for mv in metric_values]
+            # Convert Azure MetricValue objects → dicts with safe types
+            metric_values_as_dict = [
+                make_json_safe(vars(mv))  
+                for mv in metric_values
+            ]
                 
             response = {
                 "name": f"{aggregation} of {metric_name} over last {hours} hours",

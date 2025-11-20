@@ -86,7 +86,7 @@ The Agent uses the following security mechanisms:
 
 ### Install Dependencies
 
-Go to the source folder `cd .\src`
+Go to the source folder `cd src/backend`
 
 `uv sync --prerelease=allow`
 `source ./.venv/bin/activate`

@@ -83,7 +83,7 @@ def get_metrics(
         logger.info(f"Resource ID found: {resource_id}")
 
         if resource_id:
-            resource_id = resource_id.replace("https://portal.azure.com/#@puntanegra.edu.au/resource", "")
+            resource_id = resource_id.replace("https://portal.azure.com/#@unsw.edu.au/resource", "")
             metrics_client = AzureMetricsClient(credential)
             return metrics_client.get_metrics(resource_id, hours=hours, metric_name=metric_name, aggregation=aggregation)
 

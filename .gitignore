@@ -31,3 +31,4 @@ Untitled-1.json
 output*.json
 .files/
 .azure
+src/frontend/.env.local

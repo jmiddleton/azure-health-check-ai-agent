@@ -1,4 +1,4 @@
-"""AG-UI server example."""
+"""API server for Azure SRE Agent using FastAPI and assistant-ui integration."""
 
 import os
 import yaml
@@ -8,7 +8,6 @@ import json
 from pathlib import Path
 from dotenv import load_dotenv
 from agent_framework import ChatAgent
-from agent_framework_ag_ui import add_agent_framework_fastapi_endpoint
 from agent_framework import ChatMessageStore
 from fastapi.middleware.cors import CORSMiddleware
 from ag_ui.encoder import EventEncoder
@@ -87,7 +86,7 @@ async def read_root():
 
 @app.post("/api/chat")
 async def agent_endpoint(request: Request):  # type: ignore[misc]
-    """Handle AG-UI agent requests.
+    """Handle UI agent requests.
 
     Note: Function is accessed via FastAPI's decorator registration,
     despite appearing unused to static analysis.
