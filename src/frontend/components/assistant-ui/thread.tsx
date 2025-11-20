@@ -10,6 +10,8 @@ import {
   Square,
 } from "lucide-react";
 
+import Image from "next/image";
+
 import {
   ActionBarPrimitive,
   BranchPickerPrimitive,
@@ -96,7 +98,23 @@ const ThreadWelcome: FC = () => {
             exit={{ opacity: 0, y: 10 }}
             className="aui-thread-welcome-message-motion-1 text-2xl font-semibold text-foreground"
           >
-            Azure SRE Agent
+            <div className="flex items-center gap-3">
+              <Image
+                src="/logo_light.png"
+                width={60}
+                height={60}
+                alt="Logo light"
+                className="block dark:hidden"
+              />
+              <Image
+                src="/logo_dark.png"
+                width={60}
+                height={60}
+                alt="Logo dark"
+                className="hidden dark:block"
+              />
+              <span>Azure SRE Agent</span>
+            </div>
           </m.div>
           <m.div
             initial={{ opacity: 0, y: 10 }}
