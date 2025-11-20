@@ -21,18 +21,9 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { FastAPIAdapter } from "./components/MyRuntimeProvider";
 
 export const Assistant = () => {
-  // const runtime = useChatRuntime({
-  //   transport: new AssistantChatTransport({
-  //     api: "/api/chat",
-  //   }),
-  // }
-  const runtime = useLocalRuntime(FastAPIAdapter);
-
   return (
-    <AssistantRuntimeProvider runtime={runtime}>
       <SidebarProvider>
         <div className="flex h-[calc(100dvh-73px)] w-full pr-0.5">
           <ThreadListSidebar className="bg-background/80 backdrop-blur-sm border-r border-border" />
@@ -43,6 +34,5 @@ export const Assistant = () => {
           </SidebarInset>
         </div>
       </SidebarProvider>
-    </AssistantRuntimeProvider>
   );
 };

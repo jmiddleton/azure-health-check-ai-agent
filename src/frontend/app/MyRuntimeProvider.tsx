@@ -10,9 +10,8 @@ import {
 import { AssistantCloud } from "assistant-cloud";
 
 const cloud = new AssistantCloud({
-  apiKey: process.env.ASSISTANT_CLOUD_API_KEY || "",
-  userId: "user-123",
-  workspaceId: "azurehealthcheck",
+  baseUrl: process.env["NEXT_PUBLIC_ASSISTANT_BASE_URL"]!,
+  anonymous: true,
 });
 
 export const FastAPIAdapter: ChatModelAdapter = {
@@ -64,7 +63,9 @@ export function MyRuntimeProvider({
 }: Readonly<{
     children: ReactNode;
 }>) {
-    const runtime = useLocalRuntime(FastAPIAdapter, {cloud});
+    const runtime = useLocalRuntime(FastAPIAdapter, {
+        cloud, // Enables multi-thread support
+    });
 
     return (
         <AssistantRuntimeProvider runtime={runtime}>
