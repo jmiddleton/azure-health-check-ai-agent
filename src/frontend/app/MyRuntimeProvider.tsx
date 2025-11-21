@@ -9,14 +9,10 @@ import {
 } from "@assistant-ui/react";
 import { AssistantCloud } from "assistant-cloud";
 
-const cloud = new AssistantCloud({
-  baseUrl: process.env["NEXT_PUBLIC_ASSISTANT_BASE_URL"]!,
-  anonymous: true,
-});
-
 export const FastAPIAdapter: ChatModelAdapter = {
     async *run({ messages, abortSignal }) {
-        const response = await fetch("http://localhost:8000/api/chat", {
+        const apiUrl = process.env["API_HEALTHCHECK_BASE_URL"] || "http://localhost:8000";
+        const response = await fetch(apiUrl + "/api/chat", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -63,6 +59,11 @@ export function MyRuntimeProvider({
 }: Readonly<{
     children: ReactNode;
 }>) {
+    const cloud = new AssistantCloud({
+        baseUrl: process.env["NEXT_PUBLIC_ASSISTANT_BASE_URL"]!,
+        anonymous: true,
+    });
+
     const runtime = useLocalRuntime(FastAPIAdapter, {
         cloud, // Enables multi-thread support
     });

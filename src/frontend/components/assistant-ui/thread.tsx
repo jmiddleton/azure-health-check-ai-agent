@@ -37,6 +37,7 @@ import {
 } from "@/components/assistant-ui/attachment";
 
 import { cn } from "@/lib/utils";
+import { title } from "process";
 
 export const Thread: FC = () => {
   return (
@@ -151,11 +152,16 @@ const ThreadSuggestions: FC = () => {
           label: "summary report",
           action: "Show System Status summary report",
         },
+        // {
+        //   title: "List Recent Alerts",
+        //   label: "from Azure Monitor",
+        //   action: "List Recent Alerts from Azure Monitor",
+        // },
         {
-          title: "List Recent Alerts",
-          label: "from Azure Monitor",
-          action: "List Recent Alerts from Azure Monitor",
-        },
+          title: "Function App Metrics",
+          label: "for the past 7 days",
+          action: "can you plot the time series for resource unsw-smsfacade-appins-Prod for the last 7 days?",
+        }
       ].map((suggestedAction, index) => (
         <m.div
           initial={{ opacity: 0, y: 20 }}

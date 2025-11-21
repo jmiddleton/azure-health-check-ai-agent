@@ -295,7 +295,20 @@ module api 'api.bicep' = {
   }
 }
 
-
+module frontend 'frontend.bicep' = {
+  name: 'frontend'
+  scope: rg
+  params: {
+    name: 'ca-frontend-${resourceToken}'
+    location: location
+    tags: tags
+    identityName: '${abbrs.managedIdentityUserAssignedIdentities}frontend-${resourceToken}'
+    containerAppsEnvironmentName: containerApps.outputs.environmentName
+    containerRegistryName: containerApps.outputs.registryName
+    assistantBaseUrl: ''
+    apiHealthcheckBaseUrl: api.outputs.SERVICE_API_URI
+  }
+} 
 
 module userRoleAzureAIDeveloper 'core/security/role.bicep' = {
   name: 'user-role-azureai-developer'

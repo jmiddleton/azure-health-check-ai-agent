@@ -1,10 +1,11 @@
-from azure.monitor.query import LogsQueryClient, LogsQueryStatus
-from datetime import timedelta
-from dotenv import load_dotenv
 import logging
 import os
 import json
 
+from azure.monitor.query import LogsQueryClient, LogsQueryStatus
+from datetime import timedelta
+from utils import date_utils
+from dotenv import load_dotenv
 from utils.json_to_markdown import MarkdownReport
 
 load_dotenv()
@@ -139,7 +140,7 @@ class AppInsightsFailureChecker:
 
         series = []
         if table:
-            series = [{"timestamp": row["timestamp"], "count": row["totalCount"]} for row in table.rows]
+            series = [{"timestamp": date_utils.make_json_safe(row["timestamp"]), "count": row["totalCount"]} for row in table.rows]
 
         response = {
             "name": resource_name,

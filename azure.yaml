@@ -3,7 +3,7 @@ metadata:
     template: azd-init@1.20.3
 services:
     api:
-        project: ./src/backend
+        project: ./src
         language: python
         host: containerapp
         docker:
@@ -11,7 +11,7 @@ services:
             remoteBuild: true
     frontend:
         project: ./src/frontend
-        language: nodejs
+        language: js
         host: containerapp
         docker:
             path: Dockerfile

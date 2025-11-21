@@ -169,7 +169,7 @@ module app 'core/host/container-app-upsert.bicep' = {
     identityName: apiIdentity.name
     containerRegistryName: containerRegistryName
     containerAppsEnvironmentName: containerAppsEnvironmentName
-    targetPort: 80
+    targetPort: 8000
     env: env
   }
 }

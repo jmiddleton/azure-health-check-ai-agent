@@ -17,6 +17,7 @@
     "tailwindStylesheet": "app/globals.css"
   },
   "dependencies": {
+    "assistant-cloud": "0.1.7",
     "@ai-sdk/openai": "^2.0.68",
     "@assistant-ui/react": "^0.11.39",
     "@assistant-ui/react-ai-sdk": "^1.1.11",

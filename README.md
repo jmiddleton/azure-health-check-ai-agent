@@ -108,6 +108,10 @@ Go to the source folder `cd src/backend`
 
 To use MCP Inspector, in a command windows execute the following command: `npx @modelcontextprotocol/inspector`
 
+4. Docker container
+
+  - `docker run -d --env-file .env -p 8000:8000 myapi:1.1`
+
 ### Deployment
 
   - Login into Azure `azd auth login`

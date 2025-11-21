@@ -8,7 +8,7 @@
             "name": "Python FastAPI",
             "type": "debugpy",
             "request": "launch",
-            "program": "api-server.py",
+            "program": "api_server.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/src/backend"
         }
