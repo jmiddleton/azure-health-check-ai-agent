@@ -127,6 +127,39 @@
     @apply border-border outline-ring/50;
   }
 
+  /* Remove the global border for chart pre blocks so charts render without the black box */
+  .aui-md-pre-chart,
+  .aui-md-pre-chart * {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Also target regular pre blocks that contain the chart renderer marker */
+  .aui-md-pre > [data-chart-renderer],
+  .aui-md-pre > [data-chart-renderer] * {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* If browser supports :has(), remove pre background when it contains chart renderer */
+  .aui-md-pre:has(> [data-chart-renderer]) {
+    background: transparent !important;
+    padding: 0 !important;
+  }
+
+  /* Also clear background for code elements labeled language-chart */
+  code.language-chart,
+  pre > code.language-chart {
+    background: transparent !important;
+    color: inherit !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+  }
+
   :root {
     color-scheme: light;
   }

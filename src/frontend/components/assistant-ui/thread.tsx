@@ -27,6 +27,7 @@ import * as m from "motion/react-m";
 
 import { Button } from "@/components/ui/button";
 import { MarkdownText } from "@/components/assistant-ui/markdown-text";
+import DataRenderer from "@/components/assistant-ui/data-renderer";
 import { Reasoning, ReasoningGroup } from "@/components/assistant-ui/reasoning";
 import { ToolFallback } from "@/components/assistant-ui/tool-fallback";
 import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
@@ -271,12 +272,16 @@ const AssistantMessage: FC = () => {
       >
         <div className="aui-assistant-message-content mx-2 leading-7 break-words text-foreground">
           <MessagePrimitive.Parts
-            components={{
-              Text: MarkdownText,
-              Reasoning: Reasoning,
-              ReasoningGroup: ReasoningGroup,
-              tools: { Fallback: ToolFallback },
-            }}
+            // cast to any because we add a custom renderer for the 'data' part
+            components={
+              ({
+                Text: MarkdownText,
+                Data: DataRenderer,
+                Reasoning: Reasoning,
+                ReasoningGroup: ReasoningGroup,
+                tools: { Fallback: ToolFallback },
+              } as any)
+            }
           />
           <MessageError />
         </div>

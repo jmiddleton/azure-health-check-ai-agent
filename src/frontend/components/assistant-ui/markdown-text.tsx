@@ -10,6 +10,8 @@ import {
 } from "@assistant-ui/react-markdown";
 import remarkGfm from "remark-gfm";
 import { type FC, memo, useState } from "react";
+import React from "react";
+import DataRenderer from "@/components/assistant-ui/data-renderer";
 import { CheckIcon, CopyIcon } from "lucide-react";
 
 import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
@@ -202,17 +204,71 @@ const defaultComponents = memoizeMarkdownComponents({
       {...props}
     />
   ),
-  pre: ({ className, ...props }) => (
-    <pre
-      className={cn(
-        "aui-md-pre overflow-x-auto !rounded-t-none rounded-b-lg bg-black p-4 text-white",
-        className,
-      )}
-      {...props}
-    />
-  ),
+  pre: ({ className, children, ...props }) => {
+    // If this pre contains a code block with language 'chart' (or a chart renderer marker), render without the black background
+    let isChart = false;
+    const checkChild = (ch: any) => {
+      if (!React.isValidElement(ch)) return false;
+      const props = ch.props as any;
+      if (props?.["data-chart-renderer"]) return true;
+      if (ch.type === DataRenderer) return true;
+      const childClass = props?.className as string | undefined;
+      if (childClass && childClass.includes("language-chart")) return true;
+      return false;
+    };
+
+    if (React.isValidElement(children)) {
+      isChart = checkChild(children);
+    } else if (Array.isArray(children) && children.length > 0) {
+      isChart = children.some((c: any) => checkChild(c));
+    }
+
+    return (
+      <pre
+        className={cn(
+          isChart
+            ? "aui-md-pre-chart m-0 p-0 bg-transparent"
+            : "aui-md-pre overflow-x-auto !rounded-t-none rounded-b-lg bg-black p-4 text-white",
+          className,
+        )}
+        {...props}
+      >
+        {children}
+      </pre>
+    );
+  },
   code: function Code({ className, ...props }) {
     const isCodeBlock = useIsMarkdownCodeBlock();
+
+    // If this is a fenced code block and the language is 'chart', try to parse JSON and render a chart
+    if (isCodeBlock) {
+      const codeString = String(props.children ?? "");
+      const langMatch = String(className ?? "").match(/language-([a-zA-Z0-9_+-]+)/);
+      const lang = langMatch ? langMatch[1] : undefined;
+
+      if (lang === "chart") {
+        try {
+          const parsed = JSON.parse(codeString);
+          return (
+            <div data-chart-renderer={true}>
+              <DataRenderer data={parsed} />
+            </div>
+          );
+        } catch (e) {
+          // Show spinner while waiting for valid chart data
+          return (
+            <div className="flex items-center justify-center py-8" data-chart-renderer="spinner">
+              <svg className="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+              </svg>
+              <span className="ml-2 text-blue-500">Loading chart...</span>
+            </div>
+          );
+        }
+      }
+    }
+
     return (
       <code
         className={cn(
