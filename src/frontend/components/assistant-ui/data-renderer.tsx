@@ -22,7 +22,7 @@ export const DataRenderer: FC<Props> = ({ name, data }) => {
   }
 
   // Only render chart if data is valid, has type 'appInsights', and a timeseries array
-  if (data.type === "appInsights" && Array.isArray(data.timeseries) && data.timeseries.length > 0) {
+  if (Array.isArray(data.timeseries) && data.timeseries.length > 0) {
     const timeseries: Array<{ timestamp?: string; time?: string; count?: number; value?: number }> = data.timeseries;
     const x = timeseries.map((point) => point.timestamp || point.time || "");
     const y = timeseries.map((point) => point.count ?? point.value ?? 0);

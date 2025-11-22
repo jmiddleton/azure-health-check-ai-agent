@@ -149,9 +149,9 @@ const ThreadSuggestions: FC = () => {
           action: "Analyze Logic App Failures and suggest fixes",
         },
         {
-          title: "Show System Status",
-          label: "summary report",
-          action: "Show System Status summary report",
+          title: "Show current platform health",
+          label: "status report",
+          action: "Show me the current platform health status.",
         },
         // {
         //   title: "List Recent Alerts",

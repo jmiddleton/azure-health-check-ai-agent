@@ -5,6 +5,7 @@ import yaml
 import logging
 import json
 
+from utils import utils
 from pathlib import Path
 from dotenv import load_dotenv
 from agent_framework import ChatAgent
@@ -24,7 +25,8 @@ from tools.tools import (
     healthcheck_logic_app,
     update_dashboard,
     get_metrics,
-    raise_jira_ticket
+    raise_jira_ticket,
+    perform_healthcheck
 )
 
 load_dotenv()
@@ -53,11 +55,16 @@ def get_chat_client():
         instructions= agent_config.get("system_message", ""),
         description= agent_config.get("description", ""),
         chat_message_store_factory=create_message_store,
-        tools=[list_resources, raise_jira_ticket, 
-                get_metrics, get_timeseries, 
-                healthcheck_app_insights, healthcheck_adf, 
+        tools=[ list_resources, 
+                raise_jira_ticket, 
+                get_metrics, 
+                get_timeseries, 
+                healthcheck_app_insights, 
+                healthcheck_adf, 
                 healthcheck_logic_app, 
-                find_resource_by_name, update_dashboard
+                find_resource_by_name, 
+                update_dashboard,
+                perform_healthcheck
         ],
     )
 
@@ -100,10 +107,12 @@ async def agent_endpoint(request: Request):  # type: ignore[misc]
         )
         logger.info(f"Received request at /api/chat: {input_data.get('run_id', 'no-run-id')}")
 
+        messages = utils.normalize_messages(input_data['messages'])
+
         async def event_generator():
             encoder = EventEncoder()
             event_count = 0
-            async for event in agent.run_stream(input_data['messages'][-1]['content'][0]['text']):
+            async for event in agent.run_stream(messages):
                 event_count += 1
                 if event.text:
                     payload = {"content": event.text}

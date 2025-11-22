@@ -1,7 +1,7 @@
 from azure.monitor.querymetrics import MetricsClient, MetricAggregationType
 from datetime import timedelta
 from dotenv import load_dotenv
-from utils import date_utils
+from utils import utils
 import logging
 import os
 
@@ -57,7 +57,7 @@ class AzureMetricsClient:
             metric_values: list = result[0].metrics[0].timeseries[0].data
             # Convert Azure MetricValue objects → dicts with safe types
             metric_values_as_dict = [
-                date_utils.make_json_safe(vars(mv))  
+                utils.make_json_safe(vars(mv))  
                 for mv in metric_values
             ]
                 
