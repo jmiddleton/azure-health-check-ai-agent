@@ -17,11 +17,11 @@
     "tailwindStylesheet": "app/globals.css"
   },
   "dependencies": {
-    "assistant-cloud": "0.1.7",
     "@ai-sdk/openai": "^2.0.68",
     "@assistant-ui/react": "^0.11.39",
     "@assistant-ui/react-ai-sdk": "^1.1.11",
     "@assistant-ui/react-markdown": "^0.11.4",
+    "@clerk/nextjs": "^6.35.4",
     "@radix-ui/react-avatar": "^1.1.11",
     "@radix-ui/react-collapsible": "^1.1.12",
     "@radix-ui/react-dialog": "^1.1.15",
@@ -29,6 +29,7 @@
     "@radix-ui/react-slot": "^1.2.4",
     "@radix-ui/react-tooltip": "^1.2.8",
     "ai": "^5.0.95",
+    "assistant-cloud": "0.1.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.24",

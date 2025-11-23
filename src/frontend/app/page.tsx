@@ -14,6 +14,13 @@ import {
   Lock
 } from "lucide-react";
 import { DotBackground } from "@/components/dot-background";
+import {
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from '@clerk/nextjs'
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -48,17 +55,17 @@ export default function LandingPage() {
               System Operational
             </div>
 
-            <Link href="/chat">
-              <Button className="border-white/20 hover:bg-white/10 text-white">
-                Log In
-              </Button>
-            </Link>
-
-            <Link href="/chat">
-              <Button className="border-white/20 hover:bg-white/10 text-white">
-                Open Chat
-              </Button>
-            </Link>
+            <SignedOut>
+                <SignInButton />
+                <SignUpButton>
+                  <button className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
+                    Sign Up
+                  </button>
+                </SignUpButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
           </div>
         </nav>
 
@@ -117,7 +124,7 @@ export default function LandingPage() {
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
                   className="object-cover object-center rounded-2xl grayscale hover:grayscale-16 transition-all duration-500"
                   priority
-                  quality={90}
+                  quality={75}
                 />
               </div>
             </div>

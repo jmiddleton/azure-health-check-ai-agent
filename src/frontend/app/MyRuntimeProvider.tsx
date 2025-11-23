@@ -104,10 +104,13 @@ export function MyRuntimeProvider({
     children,
 }: Readonly<{
     children: ReactNode;
-}>) {
+}>) {  
     const cloud = new AssistantCloud({
         baseUrl: process.env["NEXT_PUBLIC_ASSISTANT_BASE_URL"]!,
-        anonymous: true,
+        authToken: () =>
+            fetch("/api/assistant-ui-token", { method: "POST" }).then((r) =>
+            r.text(),
+            ),
     });
 
     const runtime = useLocalRuntime(FastAPIAdapter, {

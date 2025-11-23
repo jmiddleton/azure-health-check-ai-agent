@@ -1,0 +1,5 @@
+ignoredBuiltDependencies:
+  - '@clerk/shared'
+  - es5-ext
+  - sharp
+  - unrs-resolver
