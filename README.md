@@ -52,8 +52,13 @@ The app code runs in Azure Container App to process the user input and generate 
 | **Application Insights** | Provides application performance monitoring, logging, and telemetry for debugging and optimization |
 | **Language & Frameworks** | Python with FastAPI, FastMCP, and Azure SDKs (`azure-identity`, `azure-mgmt-*`). |
 | **AI Agent Platform** | Microsoft Agent Framework for building, orchestrating, and deploying AI agents. |
-| **Chat UI** | Chainlit provides the web-based chat interface. |
+| **Chat UI** | assistant-ui provides the web-based chat interface. |
 
+### Web Application
+
+The application uses [assistant-ui](https://www.assistant-ui.com) as the chat interface, providing a modern, responsive, and highly customizable conversational experience. The integration follows the official Assistant UI Cloud Authorization pattern, using Clerk as the AuthProvider. This setup ensures that all chat interactions are securely tied to authenticated users, with Clerk managing identity, sessions, and access control while Assistant UI handles the front-end chat workflow. This approach gives us a secure, scalable, and user-friendly chat environment.
+
+For more information please check https://www.assistant-ui.com/docs/cloud/authorization#auth-provider-integration.
 
 ### Security
 
@@ -98,7 +103,7 @@ Go to the source folder `cd src/backend`
 ### Run the Agent
 
 1. Chatbot
-  - Production: `./.venv/bin/chainlit run chat_server.py` or `uv run chat_server.py`
+  - Production: `uv run chat_server.py`
 
 2. Batch Mode
   - `uv run .\batch_healthcheck.py`
