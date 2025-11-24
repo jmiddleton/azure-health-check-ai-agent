@@ -95,8 +95,8 @@ export default function LandingPage() {
                 variants={fadeInUp}
                 className="mx-auto max-w-2xl text-lg text-gray-400 sm:text-xl"
               >
-                An AI agent that performs daily health checks across Integration services.
-                Detect anomalies, summarize health, and get actionable insights automatically.
+                Automatically detect issues, summarize system health, and provide actionable insights 
+                for Azure services. Powered by Microsoft Agent Framework and Azure Foundry.
               </motion.p>
 
               <motion.div
@@ -134,6 +134,13 @@ export default function LandingPage() {
 
         {/* Features Grid */}
         <section className="px-6 py-24 max-w-7xl mx-auto border-t border-white/10">
+          <div className="max-w-3xl mx-auto text-center space-y-4 mb-16">
+              <h2 className="bg-gradient-to-b from-white to-white/60 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-5xl">Intelligent Azure Monitoring</h2>
+              <p className="text-lg text-muted-foreground">
+                The AI Agent monitors Azure resources, detects anomalies, and uses artificial intelligence to suggest recommendations to fix issues. It supports natural language commands and interoperates with tools like Azure SDK and Azure Management API.
+              </p>
+          </div>
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <FeatureCard
               icon={<Activity className="h-6 w-6 text-blue-400" />}
@@ -172,7 +179,7 @@ export default function LandingPage() {
         <section className="px-6 py-24 max-w-7xl mx-auto border-t border-white/10">
           <div className="container">
             <div className="max-w-3xl mx-auto text-center space-y-4 mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold">Architecture</h2>
+              <h2 className="bg-gradient-to-b from-white to-white/60 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-5xl">Architecture</h2>
               <p className="text-lg text-muted-foreground">
                 This solution deploys a web-based chat application with an AI agent running in Azure Container App, leveraging Azure AI Agent service with knowledge about issues and recommendations.
               </p>
