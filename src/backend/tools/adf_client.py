@@ -54,8 +54,8 @@ class ADFService:
             processed = 0
             for run in runs.value:
                 processed += 1
-                if processed > 5:
-                    break  # Limit to 5 recent runs
+                if processed > 50:
+                    break  # Limit to 50 recent runs
 
                 run_info = {
                     "name": run.pipeline_name,

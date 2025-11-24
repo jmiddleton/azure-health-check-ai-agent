@@ -112,6 +112,14 @@ To use MCP Inspector, in a command windows execute the following command: `npx @
 
   - `docker run -d --env-file .env -p 8000:8000 myapi:1.1`
 
+### Expose the app to the public internet
+
+To expose the app to the public, you can use a tool such as `ngrok` to open a tunnel to your local server.
+
+`ngrok http <port>`
+
+This will give you a public URL like https://<subdomain>.ngrok-free.dev that you can use to access the app.
+
 ### Deployment
 
   - Login into Azure `azd auth login`
