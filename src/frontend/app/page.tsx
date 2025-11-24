@@ -56,12 +56,12 @@ export default function LandingPage() {
             </div>
 
             <SignedOut>
-                <SignInButton />
-                <SignUpButton>
-                  <button className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
-                    Sign Up
-                  </button>
-                </SignUpButton>
+              <SignInButton />
+              <SignUpButton>
+                <button className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
+                  Sign Up
+                </button>
+              </SignUpButton>
             </SignedOut>
             <SignedIn>
               <UserButton />
@@ -114,21 +114,21 @@ export default function LandingPage() {
                 </Link>
               </motion.div>
 
-            <div className="relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden shadow-2xl">
-              <div className="absolute inset-0 bg-gradient-to-b from-blue-500/10 via-transparent to-transparent z-10 pointer-events-none" />
-              <div className="relative w-full mx-auto" style={{ aspectRatio: '16 / 9' }}>
-                <Image
-                  src="/sre_chat.png"
-                  alt="Azure Health Check Dashboard"
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
-                  className="object-cover object-center rounded-2xl grayscale hover:grayscale-16 transition-all duration-500"
-                  priority
-                  quality={75}
-                />
+              <div className="relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden shadow-2xl">
+                <div className="absolute inset-0 bg-gradient-to-b from-blue-500/10 via-transparent to-transparent z-10 pointer-events-none" />
+                <div className="relative w-full mx-auto" style={{ aspectRatio: '16 / 9' }}>
+                  <Image
+                    src="/sre_chat.png"
+                    alt="Azure Health Check Dashboard"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+                    className="object-cover object-center rounded-2xl grayscale hover:grayscale-16 transition-all duration-500"
+                    priority
+                    quality={75}
+                  />
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
           </div>
         </section>
 
@@ -165,6 +165,30 @@ export default function LandingPage() {
               title="Secure & Integrated"
               description="Built with Microsoft Agent Framework. Supports Jira ticketing and Azure Dashboard reporting."
             />
+          </div>
+        </section>
+
+        {/* Architecture Section */}
+        <section className="px-6 py-24 max-w-7xl mx-auto border-t border-white/10">
+          <div className="container">
+            <div className="max-w-3xl mx-auto text-center space-y-4 mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold">Architecture</h2>
+              <p className="text-lg text-muted-foreground">
+                This solution deploys a web-based chat application with an AI agent running in Azure Container App, leveraging Azure AI Agent service with knowledge about issues and recommendations.
+              </p>
+            </div>
+
+              <div className="relative w-full mx-auto rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden shadow-2xl">
+                  <div className="absolute inset-0 bg-gradient-to-b from-blue-500/10 via-transparent to-transparent z-10 pointer-events-none" />
+                  <Image
+                    src="/architecture.png"
+                    alt="Azure Health Check Dashboard"
+                    width={1300}
+                    height={675}
+                    className="object-cover object-center rounded-2xl transition-all duration-500"
+                    priority
+                  />
+                </div>
           </div>
         </section>
 

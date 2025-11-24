@@ -3,11 +3,14 @@
 import logging
 import os
 import re
-
 import mcp
+import mcp.types as types
 
+from pathlib import Path
+from typing import Any, Dict, List
 from fastmcp import FastMCP
 from azure.identity import DefaultAzureCredential
+from starlette.middleware.cors import CORSMiddleware
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dotenv import load_dotenv
@@ -36,22 +39,36 @@ APP_INSIGHTS_PROVIDER="microsoft.insights"
 
 # URL patterns for resource extraction
 url_patterns = {
-    ADF_PROVIDER: re.compile(
-    r".*subscriptions/([^/]+)/resourceGroups/([^/]+)/providers/Microsoft\.DataFactory/factories/([^/]+)", re.IGNORECASE
-),
-    LOGIC_APP_PROVIDER: re.compile(
-    r".*subscriptions/([^/]+)/resourceGroups/([^/]+)/providers/Microsoft\.Logic/workflows/([^/?]+)", re.IGNORECASE
-),
-    APP_INSIGHTS_PROVIDER: re.compile(
-    r".*subscriptions/([^/]+)/resourceGroups/([^/]+)/providers/Microsoft\.Insights/components/([^/?]+)", re.IGNORECASE
-),
+        ADF_PROVIDER: re.compile(
+        r".*subscriptions/([^/]+)/resourceGroups/([^/]+)/providers/Microsoft\.DataFactory/factories/([^/]+)", re.IGNORECASE
+    ),
+        LOGIC_APP_PROVIDER: re.compile(
+        r".*subscriptions/([^/]+)/resourceGroups/([^/]+)/providers/Microsoft\.Logic/workflows/([^/?]+)", re.IGNORECASE
+    ),
+        APP_INSIGHTS_PROVIDER: re.compile(
+        r".*subscriptions/([^/]+)/resourceGroups/([^/]+)/providers/Microsoft\.Insights/components/([^/?]+)", re.IGNORECASE
+    ),
 }
 
 mcp = FastMCP(
     "Streamable HTTP: Stateless Server",
-    stateless_http=True,
-    json_response=True
+    stateless_http=True
 )
+
+app = mcp.streamable_http_app()
+
+try:
+    from starlette.middleware.cors import CORSMiddleware
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_methods=["*"],
+        allow_headers=["*"],
+        allow_credentials=False,
+    )
+except Exception:  # pragma: no cover - middleware is optional
+    pass
 
 # ---------------- AI Function Tools ----------------
 @mcp.tool()
@@ -239,6 +256,60 @@ def _process_row(row):
             "status": "Unsupported URL",
             "error": None
         }
+
+
+ASSETS_DIR = Path(__file__).resolve().parent.parent / "backend" / "public"
+
+def _load_widget_html(component_name: str) -> str:
+    html_path = ASSETS_DIR / f"{component_name}.html"
+    if html_path.exists():
+        return html_path.read_text(encoding="utf8")
+
+    fallback_candidates = sorted(ASSETS_DIR.glob(f"{component_name}-*.html"))
+    if fallback_candidates:
+        return fallback_candidates[-1].read_text(encoding="utf8")
+
+    raise FileNotFoundError(
+        f'Widget HTML for "{component_name}" not found in {ASSETS_DIR}. '
+        "Run `pnpm run build` to generate the assets before starting the server."
+    )
+
+async def _handle_read_resource(req: types.ReadResourceRequest) -> types.ServerResult:
+    resource_uri = str(req.params.uri)
+
+    if resource_uri != "ui://widget/todo.html":
+        return types.ServerResult(
+            types.ReadResourceResult(
+                contents=[],
+                _meta={"error": f"Unknown resource: {req.params.uri}"},
+            )
+        )
+
+    contents = [
+        types.TextResourceContents(
+            uri="ui://widget/todo.html",
+            description="Widget to manage your todo list",
+            mimeType="text/html+skybridge",
+            text=_load_widget_html("todo-widget"),
+            _meta= {"openai/widgetPrefersBorder": True},
+        )
+    ]
+    return types.ServerResult(types.ReadResourceResult(contents=contents))
+
+@mcp._mcp_server.list_resources()
+async def _list_resources() -> List[types.Resource]:
+    return [
+        types.Resource(
+            name="Todo System",
+            title="Todo System Widget",
+            uri="ui://widget/todo.html",
+            description="Widget to manage your todo list",
+            mimeType="text/html+skybridge",
+            _meta= {"openai/widgetPrefersBorder": True},
+        )
+    ]
+
+mcp._mcp_server.request_handlers[types.ReadResourceRequest] = _handle_read_resource
 
 if __name__ == "__main__":
     mcp.run(transport="streamable-http", host="0.0.0.0", port=9000)
