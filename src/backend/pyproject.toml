@@ -5,8 +5,8 @@ description = "Punta Negra Healthcheck Agents"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "agent-framework>=1.0.0b251001",
-    "agent-framework-ag-ui>=1.0.0b251106.post1",
+    "agent-framework==1.0.0b251105",
+    "agent-framework-ag-ui==1.0.0b251106.post1",
     "aiohttp>=3.12.15",
     "aiosqlite>=0.21.0",
     "apscheduler>=3.11.1",

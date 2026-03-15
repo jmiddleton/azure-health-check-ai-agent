@@ -4,7 +4,7 @@ import asyncio
 import os
 from dotenv import load_dotenv
 
-from agent_framework import ChatAgent
+from agent_framework import Agent
 from agent_framework_ag_ui import AGUIChatClient
 
 load_dotenv()
@@ -19,7 +19,7 @@ async def main():
     chat_client = AGUIChatClient(endpoint=server_url)
 
     # Create agent with the chat client
-    agent = ChatAgent(
+    agent = Agent(
         name="ClientAgent",
         chat_client=chat_client,
         instructions="You are a helpful assistant.",

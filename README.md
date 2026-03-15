@@ -103,7 +103,7 @@ Go to the source folder `cd src/backend`
 ### Run the Agent
 
 1. Chatbot
-  - Production: `uv run chat_server.py`
+  - Production: `uv run api_server.py`
 
 2. Batch Mode
   - `uv run .\batch_healthcheck.py`

@@ -7,7 +7,7 @@ import yaml
 
 from abc import abstractmethod
 from pathlib import Path
-from agent_framework import ChatAgent
+from agent_framework import Agent
 from azure.identity.aio import AzureCliCredential
 from azure.ai.projects.aio import AIProjectClient
 from utils import chat_client_builder
@@ -50,7 +50,7 @@ class SimpleLlmAdvisor(Advisor):
         with open(config_file, "r", encoding="utf-8") as f:
             agent_config = yaml.safe_load(f)
             
-        self.agent = ChatAgent(name= agent_config.get("name", ""), chat_client= chat_client,
+        self.agent = Agent(name= agent_config.get("name", ""), chat_client= chat_client,
             instructions= agent_config.get("recommendation_message", ""),
             description= agent_config.get("description", ""),
             tools=[],
@@ -96,7 +96,7 @@ class AzureAgentAdvisor(Advisor):
                             project_endpoint=self.project_endpoint, async_credential=credential)
 
             try:
-                async with ChatAgent(
+                async with Agent(
                     chat_client=chat_client,
                     instructions= self.agent_config.get("recommendation_message", ""),
                 ) as agent:

@@ -1,6 +1,7 @@
 """API server for Azure SRE Agent using FastAPI and assistant-ui integration."""
 
 import os
+from pyexpat.errors import messages
 import yaml
 import logging
 import json
@@ -8,8 +9,8 @@ import json
 from utils import utils
 from pathlib import Path
 from dotenv import load_dotenv
-from agent_framework import ChatAgent
-from agent_framework import ChatMessageStore
+from agent_framework import Agent
+
 from fastapi.middleware.cors import CORSMiddleware
 from ag_ui.encoder import EventEncoder
 from fastapi import FastAPI, Request
@@ -46,12 +47,13 @@ with open(config_file, "r", encoding="utf-8") as f:
 
 # Create a custom message store
 def create_message_store():
-    return ChatMessageStore()
+    #TODO: review return ChatMessageStore()
+    return None
 
 def get_chat_client():
     chat_builder = chat_client_builder.new_chat_client()
 
-    return ChatAgent(name= agent_config.get("name", ""), chat_client= chat_builder,
+    return Agent(client= chat_builder, name= agent_config.get("name", ""), 
         instructions= agent_config.get("system_message", ""),
         description= agent_config.get("description", ""),
         chat_message_store_factory=create_message_store,
@@ -76,6 +78,8 @@ app = FastAPI(title="Azure SRE Agent Server")
 
 origins = [
     'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://192.168.68.77:3000'
 ]
 
 app.add_middleware(
@@ -92,31 +96,23 @@ async def read_root():
 
 
 @app.post("/api/chat")
-async def agent_endpoint(request: Request):  # type: ignore[misc]
-    """Handle UI agent requests.
-
-    Note: Function is accessed via FastAPI's decorator registration,
-    despite appearing unused to static analysis.
-    """
+async def agent_endpoint(request: Request):
+    """Handle UI agent requests with streaming response."""
     try:
         input_data = await request.json()
-        logger.debug(
-            f"Received request - User ID: {input_data.get('user_id', 'no-id')}, "
-            f"Thread ID: {input_data.get('thread_id', 'no-thread-id')}, "
-            f"Messages: {len(input_data.get('messages', []))}"
-        )
-        logger.info(f"Received request at /api/chat: {input_data.get('run_id', 'no-run-id')}")
-
         messages = utils.normalize_messages(input_data['messages'])
 
         async def event_generator():
             encoder = EventEncoder()
-            event_count = 0
-            async for event in agent.run_stream(messages):
-                event_count += 1
-                if event.text:
-                    payload = {"content": event.text}
+
+            # Use streaming responses
+            stream = agent.run(messages, stream=True)
+            async for update in stream:
+                text = getattr(update, "text", str(update))
+                if text:
+                    payload = {"content": text}
                     yield f"data: {json.dumps(payload)}\n\n"
+            final = await stream.get_final_response()
 
         return StreamingResponse(
             event_generator(),
@@ -127,10 +123,10 @@ async def agent_endpoint(request: Request):  # type: ignore[misc]
                 "X-Accel-Buffering": "no",
             },
         )
+
     except Exception as e:
         logger.error(f"Error in agent endpoint: {e}", exc_info=True)
         return {"error": str(e)}
-
 
 if __name__ == "__main__":
     import uvicorn

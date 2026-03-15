@@ -3,15 +3,15 @@ import os
 import logging
 from agent_framework_azure_ai import AzureAIAgentClient
 from agent_framework.openai import OpenAIChatClient, OpenAIResponsesClient
-from agent_framework import ChatAgent
+from agent_framework import Agent
 from agent_framework.azure import AzureOpenAIChatClient
 from azure.identity import DefaultAzureCredential
 
 logger = logging.getLogger("ms_agent")
 logger.setLevel(os.getenv("LOG_LEVEL", "DEBUG"))
 
-def new_chat_client() -> ChatAgent:
-    """Create a new ChatAgent instance based on environment configuration."""
+def new_chat_client() -> Agent:
+    """Create a new Agent instance based on environment configuration."""
     chat_client = None
     if os.getenv("OPENAI_API_KEY") == "ollama":
         logger.info("Using Ollama as the backend for the agent.")
@@ -38,7 +38,7 @@ def new_chat_client() -> ChatAgent:
 
     return chat_client
 
-def get_chat_client(project_client, agent_id: str, project_endpoint:str, async_credential) -> ChatAgent:
-    """Create a ChatAgent instance for Azure AI Projects based on environment configuration."""
+def get_chat_client(project_client, agent_id: str, project_endpoint:str, async_credential) -> Agent:
+    """Create a Agent instance for Azure AI Projects based on environment configuration."""
     logger.info("Using Azure AI Projects as the backend for the agent.")
     return AzureAIAgentClient(project_client=project_client, agent_id=agent_id, project_endpoint=project_endpoint, async_credential=async_credential)
